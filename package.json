@@ -3,7 +3,7 @@
   "description": "Lista créditos pendentes de clientes",
   "version": "1.0.0",
   "engines": {
-      "version": "12.x"
+      "node": "12.x"
   },
   "scripts": {
     "ng": "ng",
