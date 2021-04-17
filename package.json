@@ -1,9 +1,9 @@
 {
   "name": "app-demo-portinari",
-  "description": "Lista créditos pendentes de clientes",
+  "description": "Lista crï¿½ditos pendentes de clientes",
   "version": "1.0.0",
   "engines": {
-      "node": "12.x"
+    "node": "12.x"
   },
   "scripts": {
     "ng": "ng",
@@ -11,7 +11,6 @@
     "build": "ng build --prod",
     "test": "ng test",
     "lint": "ng lint",
-
     "e2e": "ng e2e"
   },
   "private": true,

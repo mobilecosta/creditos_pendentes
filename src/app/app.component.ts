@@ -12,17 +12,7 @@ export class AppComponent {
   readonly menus: Array<PoMenuItem> = [
     { label: 'Início', link: '/home' },
     { label: 'Clientes', subItems: [
-      { label: 'Lista de créditos', link: '/dynamic-customers' },
+      { label: 'Lista de créditos', link: '/creditos' },
     ]},
-    /*
-    { label: '(Template) Clientes', subItems: [
-      { label: 'Lista de clientes', link: '/template-customers' },
-      { label: 'Adicionar novo cliente', link: '/template-customers/new' },
-    ]},
-    { label: '(Metadata) Clientes', subItems: [
-      { label: 'Lista de clientes', link: '/metadata-customers' },
-      { label: 'Adicionar novo cliente', link: '/metadata-customers/new' },
-    ]}
-    */
   ];
 }

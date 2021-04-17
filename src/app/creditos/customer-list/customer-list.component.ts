@@ -23,8 +23,6 @@ export class CustomerListComponent implements OnInit, OnDestroy {
   private searchTerm: string = '';
   private searchFilters: any = { };
 
-  public readonly cityService: string = 'https://app-demo-portinari-api.herokuapp.com/api/samples/v1/cities';
-
   public readonly actions: Array<PoPageAction> = [
     //{ action: this.onNewCustomer.bind(this), label: 'Cadastrar', icon: 'po-icon-user-add' },
     //{ action: this.onRemoveCustomers.bind(this), label: 'Remover clientes' }
@@ -32,12 +30,6 @@ export class CustomerListComponent implements OnInit, OnDestroy {
 
   public readonly filters: Array<any> = [
     { property: 'name', label: 'Nome', gridColumns: 6 },
-    { property: 'city', label: 'Cidade', optionsService: this.cityService, gridColumns: 6, params: { transform: true } },
-    { property: 'genre', label: 'Gênero', gridColumns: 7, options: [
-      { value: 'female', label: 'Feminino' },
-      { value: 'male', label: 'Masculino' },
-      { value: 'other', label: 'Outros' },
-    ]},
     { property: 'status', type: 'Status', gridColumns: 5, optionsMulti: true, options: [
       { value: 'active', label: 'Ativo' },
       { value: 'inactive', label: 'Inativo' }
