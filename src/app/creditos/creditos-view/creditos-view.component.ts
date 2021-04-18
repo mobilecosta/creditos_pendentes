@@ -8,18 +8,18 @@ import { Subscription } from 'rxjs';
 import { PoNotificationService, PoDynamicViewField } from '@portinari/portinari-ui';
 
 @Component({
-  selector: 'app-customer-view',
-  templateUrl: './customer-view.component.html'
+  selector: 'app-creditos-view',
+  templateUrl: './creditos-view.component.html'
 })
-export class CustomerViewComponent implements OnDestroy, OnInit {
+export class CreditosViewComponent implements OnDestroy, OnInit {
 
   private readonly url: string = 'https://app-demo-portinari-api.herokuapp.com/api/samples/v1/people';
 
-  private customerRemoveSub: Subscription;
-  private customerSub: Subscription;
+  private creditosRemoveSub: Subscription;
+  private creditosSub: Subscription;
   private paramsSub: Subscription;
 
-  customer: any = {};
+  creditos: any = {};
 
   readonly fieldStatus = { property: 'statusDescription', label: 'Status', tag: true, gridColumns: 2, color: 'color-10' };
 
@@ -50,23 +50,23 @@ export class CustomerViewComponent implements OnDestroy, OnInit {
 
   ngOnDestroy() {
     this.paramsSub.unsubscribe();
-    this.customerSub.unsubscribe();
+    this.creditosSub.unsubscribe();
 
-    if (this.customerRemoveSub) {
-      this.customerRemoveSub.unsubscribe();
+    if (this.creditosRemoveSub) {
+      this.creditosRemoveSub.unsubscribe();
     }
   }
 
   back() {
-    this.router.navigateByUrl('dynamic-customers');
+    this.router.navigateByUrl('creditos');
   }
 
   edit() {
-    this.router.navigateByUrl(`dynamic-customers/edit/${this.customer.id}`);
+    this.router.navigateByUrl(`creditos/edit/${this.creditos.id}`);
   }
 
   remove() {
-    this.customerRemoveSub = this.httpClient.delete(`${this.url}/${this.customer.id}`)
+    this.creditosRemoveSub = this.httpClient.delete(`${this.url}/${this.creditos.id}`)
       .subscribe(() => {
         this.poNotification.warning('Cadastro do cliente apagado com sucesso.');
 
@@ -75,11 +75,11 @@ export class CustomerViewComponent implements OnDestroy, OnInit {
   }
 
   private loadData(id) {
-    this.customerSub = this.httpClient.get(`${this.url}/${id}`)
+    this.creditosSub = this.httpClient.get(`${this.url}/${id}`)
       .subscribe(response => {
-        this.customer = response;
+        this.creditos = response;
 
-        this.fieldStatus.color = this.customer.status === 'active' ? 'color-10' : 'color-07';
+        this.fieldStatus.color = this.creditos.status === 'active' ? 'color-10' : 'color-07';
       });
   }
 

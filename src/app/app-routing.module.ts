@@ -3,12 +3,12 @@ import { Routes, RouterModule } from '@angular/router';
 
 const routes: Routes = [
   { path: 'home', loadChildren: () => import('./home/home.module').then(m => m.HomeModule) },
-  { path: 'creditos', loadChildren: () => import('./creditos/dynamic-customers.module').then(m => m.DynamicCustomersModule) },
+  { path: 'creditos', loadChildren: () => import('./creditos/creditos.module').then(m => m.CreditosModule) },
   { path: '', redirectTo: '/home', pathMatch: 'full'}
 ];
 
 @NgModule({
-  imports: [RouterModule.forRoot(routes, { relativeLinkResolution: 'legacy' })],
+  imports: [RouterModule.forRoot(routes)],
   exports: [RouterModule]
 })
 export class AppRoutingModule { }

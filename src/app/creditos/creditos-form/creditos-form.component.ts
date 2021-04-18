@@ -11,15 +11,15 @@ const actionInsert = 'insert';
 const actionUpdate = 'update';
 
 @Component({
-  selector: 'app-customer-form',
-  templateUrl: './customer-form.component.html'
+  selector: 'app-creditos-form',
+  templateUrl: './creditos-form.component.html'
 })
-export class CustomerFormComponent implements OnDestroy, OnInit {
+export class CreditosFormComponent implements OnDestroy, OnInit {
 
   private readonly url: string = 'https://app-demo-portinari-api.herokuapp.com/api/samples/v1/people';
 
   private action: string = actionInsert;
-  private customerSub: Subscription;
+  private creditosSub: Subscription;
   private paramsSub: Subscription;
 
   public readonly cityService: string = 'https://app-demo-portinari-api.herokuapp.com/api/samples/v1/cities';
@@ -45,7 +45,7 @@ export class CustomerFormComponent implements OnDestroy, OnInit {
     { property: 'father', label: 'Nome do pai', optional: true, gridColumns: 5 },
   ];
 
-  public customer: any = { status: false };
+  public creditos: any = { status: false };
   public state: string = '';
 
   constructor(
@@ -57,8 +57,8 @@ export class CustomerFormComponent implements OnDestroy, OnInit {
   ngOnDestroy() {
     this.paramsSub.unsubscribe();
 
-    if (this.customerSub) {
-      this.customerSub.unsubscribe();
+    if (this.creditosSub) {
+      this.creditosSub.unsubscribe();
     }
   }
 
@@ -89,18 +89,18 @@ export class CustomerFormComponent implements OnDestroy, OnInit {
   }
 
   cancel() {
-    this.router.navigateByUrl('/dynamic-customers');
+    this.router.navigateByUrl('/creditos');
   }
 
   save() {
-    const customer = {...this.customer};
+    const creditos = {...this.creditos};
 
-    customer.status = customer.status ? 'active' : 'inactive';
+    creditos.status = creditos.status ? 'active' : 'inactive';
 
-    this.customerSub = this.isUpdateOperation
-      ? this.httpClient.put(`${this.url}/${customer.id}`, customer)
+    this.creditosSub = this.isUpdateOperation
+      ? this.httpClient.put(`${this.url}/${creditos.id}`, creditos)
         .subscribe(() => this.navigateToList('Cliente atualizado com sucesso'))
-      : this.httpClient.post(this.url, customer)
+      : this.httpClient.post(this.url, creditos)
         .subscribe(() => this.navigateToList('Cliente cadastrado com sucesso'));
   }
 
@@ -113,22 +113,22 @@ export class CustomerFormComponent implements OnDestroy, OnInit {
   }
 
   private loadData(id) {
-    this.customerSub = this.httpClient.get(`${this.url}/${id}`)
+    this.creditosSub = this.httpClient.get(`${this.url}/${id}`)
       .pipe(
-        map((customer: any) => {
-          customer.status = customer.status === 'active';
-          this.state = customer.uf;
+        map((creditos: any) => {
+          creditos.status = creditos.status === 'active';
+          this.state = creditos.uf;
 
-          return customer;
+          return creditos;
         })
       )
-      .subscribe(response => this.customer = response);
+      .subscribe(response => this.creditos = response);
   }
 
   private navigateToList(msg: string) {
     this.poNotification.success(msg);
 
-    this.router.navigateByUrl('/dynamic-customers');
+    this.router.navigateByUrl('/creditos');
   }
 
 }

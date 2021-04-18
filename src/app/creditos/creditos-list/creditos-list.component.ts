@@ -9,23 +9,23 @@ import {
 } from '@portinari/portinari-ui';
 
 @Component({
-  selector: 'app-customer-list',
-  templateUrl: './customer-list.component.html'
+  selector: 'app-creditos-list',
+  templateUrl: './creditos-list.component.html'
 })
-export class CustomerListComponent implements OnInit, OnDestroy {
+export class CreditosListComponent implements OnInit, OnDestroy {
 
   private readonly url: string = 'https://app.vindi.com.br/api/v1/issues?query=status:open&per_page=50&sort_order=desc';
 
-  private customerRemoveSub: Subscription;
-  private customersRemoveSub: Subscription;
-  private customersSub: Subscription;
+  private creditosRemoveSub: Subscription;
+  private creditossRemoveSub: Subscription;
+  private creditossSub: Subscription;
   private page: number = 1;
   private searchTerm: string = '';
   private searchFilters: any = { };
 
   public readonly actions: Array<PoPageAction> = [
-    //{ action: this.onNewCustomer.bind(this), label: 'Cadastrar', icon: 'po-icon-user-add' },
-    //{ action: this.onRemoveCustomers.bind(this), label: 'Remover clientes' }
+    //{ action: this.onNewcreditos.bind(this), label: 'Cadastrar', icon: 'po-icon-user-add' },
+    //{ action: this.onRemovecreditoss.bind(this), label: 'Remover clientes' }
   ];
 
   public readonly filters: Array<any> = [
@@ -37,7 +37,7 @@ export class CustomerListComponent implements OnInit, OnDestroy {
   ];
 
   public readonly columns: Array<PoTableColumn> = [
-    { property: 'idcustomer', label: 'Id' },
+    { property: 'idcreditos', label: 'Id' },
     { property: 'name', label: 'Nome' },
     { property: 'email', label: 'E-mail', type: 'link', action: this.sendMail.bind(this) },
     { property: 'created_at', label: 'Data', type: 'date', format: 'dd/MM/yyyy', width: '100px' },
@@ -50,12 +50,12 @@ export class CustomerListComponent implements OnInit, OnDestroy {
   ];
 
   public readonly tableActions: Array<PoTableAction> = [
-    { action: this.onViewCustomer.bind(this), label: 'Visualizar' },
-    { action: this.onEditCustomer.bind(this), disabled: this.canEditCustomer.bind(this), label: 'Editar' },
-    { action: this.onRemoveCustomer.bind(this), label: 'Remover', type: 'danger', separator: true }
+    { action: this.onViewcreditos.bind(this), label: 'Visualizar' },
+    { action: this.onEditcreditos.bind(this), disabled: this.canEditcreditos.bind(this), label: 'Editar' },
+    { action: this.onRemovecreditos.bind(this), label: 'Remover', type: 'danger', separator: true }
   ];
 
-  public customers: Array<any> = [];
+  public creditos: Array<any> = [];
   public hasNext: boolean = false;
   public loading: boolean = true;
 
@@ -68,14 +68,14 @@ export class CustomerListComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
-    this.customersSub.unsubscribe();
+    this.creditossSub.unsubscribe();
 
-    if (this.customerRemoveSub) {
-      this.customerRemoveSub.unsubscribe();
+    if (this.creditosRemoveSub) {
+      this.creditosRemoveSub.unsubscribe();
     }
 
-    if (this.customersRemoveSub) {
-      this.customersRemoveSub.unsubscribe();
+    if (this.creditossRemoveSub) {
+      this.creditossRemoveSub.unsubscribe();
     }
   }
 
@@ -128,15 +128,18 @@ export class CustomerListComponent implements OnInit, OnDestroy {
     this.loadData(params);
   }
 
-  private canEditCustomer(customer) {
-    return customer.status !== 'active';
+  private canEditcreditos(creditos) {
+    return creditos.status !== 'active';
   }
 
   private loadData(params: { page?: number, search?: string } = { }) {
     this.loading = true;
     this.hasNext =  false;
     console.log(params.page);
-    this.customersSub = this.httpClient.get(this.url, { params: <any>params, headers: { authorization: 'Basic Vnp0MjBHbFBfVVAxYjF3NVZBQ2lFMWhDZVF5WWtFUW9kN0wyVTNiMEVaQQ==', contentType: 'application/json' } })
+    this.creditossSub = this.httpClient.get(this.url, 
+      { params: <any>params, headers: 
+      { authorization: 'Basic Vnp0MjBHbFBfVVAxYjF3NVZBQ2lFMWhDZVF5WWtFUW9kN0wyVTNiMEVaQQ==', 
+        contentType: 'application/json' } })
       
       .subscribe((response: { issues: Array<any> }) => {
         let issuesret: Array<any> = [];
@@ -151,17 +154,17 @@ export class CustomerListComponent implements OnInit, OnDestroy {
           linha['transaction_amount'] = linhas.data.transaction_amount
           linha['created_at'] = linhas.created_at
           linha['updated_at'] = linhas.updated_at
-          linha['idcustomer'] = linhas.customer.id
-          linha['name'] = linhas.customer.name
-          linha['email'] = linhas.customer.email
+          linha['idcreditos'] = linhas.creditos.id
+          linha['name'] = linhas.creditos.name
+          linha['email'] = linhas.creditos.email
           issuesret.push(linha)
           this.hasNext =  true; 
         }
 
         )
-        this.customers = !params.page || params.page === 1
+        this.creditos = !params.page || params.page === 1
           ? issuesret
-          : [...this.customers, ...issuesret];
+          : [...this.creditos, ...issuesret];
         this.loading = false;
       });
   }
@@ -185,43 +188,43 @@ export class CustomerListComponent implements OnInit, OnDestroy {
     this.loadData(event);
   }
 
-  private onEditCustomer(customer) {
-    this.router.navigateByUrl(`/dynamic-customers/edit/${customer.id}`);
+  private onEditcreditos(creditos) {
+    this.router.navigateByUrl(`/creditos/edit/${creditos.id}`);
   }
 
-  private onNewCustomer() {
-    this.router.navigateByUrl('/dynamic-customers/new');
+  private onNewcreditos() {
+    this.router.navigateByUrl('/creditos/new');
   }
 
-  private onRemoveCustomer(customer) {
-    this.customerRemoveSub = this.httpClient.delete(`${this.url}/${customer.id}`)
+  private onRemovecreditos(creditos) {
+    this.creditosRemoveSub = this.httpClient.delete(`${this.url}/${creditos.id}`)
       .subscribe(() => {
         this.poNotification.warning('Cadastro do cliente apagado com sucesso.');
 
-        this.customers.splice(this.customers.indexOf(customer), 1);
+        this.creditos.splice(this.creditos.indexOf(creditos), 1);
       });
   }
 
-  private onRemoveCustomers() {
-    const selectedCustomers = this.table.getSelectedRows();
-    const customersWithId = selectedCustomers.map(customer => ({ id: customer.id}));
+  private onRemovecreditoss() {
+    const selectedcreditoss = this.table.getSelectedRows();
+    const creditossWithId = selectedcreditoss.map(creditos => ({ id: creditos.id}));
 
-    this.customersRemoveSub = this.httpClient.request('delete', this.url, { body: customersWithId } )
+    this.creditossRemoveSub = this.httpClient.request('delete', this.url, { body: creditossWithId } )
       .subscribe(() => {
         this.poNotification.warning('Clientes apagados em lote com sucesso.');
 
-        selectedCustomers.forEach(customer => {
-          this.customers.splice(this.customers.indexOf(customer), 1);
+        selectedcreditoss.forEach(creditos => {
+          this.creditos.splice(this.creditos.indexOf(creditos), 1);
         });
       });
   }
 
-  private onViewCustomer(customer) {
-    this.router.navigateByUrl(`/dynamic-customers/view/${customer.id}`);
+  private onViewcreditos(creditos) {
+    this.router.navigateByUrl(`/creditos/view/${creditos.id}`);
   }
 
-  private sendMail(email, customer) {
-    const body = `Olá ${customer.name}, gostariamos de agradecer seu contato.`;
+  private sendMail(email, creditos) {
+    const body = `Olá ${creditos.name}, gostariamos de agradecer seu contato.`;
     const subject = 'Contato';
 
     window.open(`mailto:${email}?subject=${subject}&body=${body}`, '_self');
