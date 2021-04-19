@@ -1,0 +1,10 @@
+<po-page-edit
+  [p-title]="title">
+
+  <po-dynamic-form #formCustomer
+    [p-fields]="fields"
+    [p-value]="creditos"
+    [p-validate]="validate.bind(this)">
+  </po-dynamic-form>
+
+</po-page-edit>
