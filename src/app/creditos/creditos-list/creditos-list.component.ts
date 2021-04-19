@@ -34,7 +34,7 @@ export class CreditosListComponent implements OnInit, OnDestroy {
   ];
 
   public readonly columns: Array<PoTableColumn> = [
-    { property: 'idcreditos', label: 'Id' },
+    { property: 'idcustomer', label: 'Id' },
     { property: 'name', label: 'Nome' },
     { property: 'email', label: 'E-mail', type: 'link', action: this.sendMail.bind(this) },
     { property: 'created_at', label: 'Data', type: 'date', format: 'dd/MM/yyyy', width: '100px' },
@@ -151,9 +151,9 @@ export class CreditosListComponent implements OnInit, OnDestroy {
           linha['transaction_amount'] = linhas.data.transaction_amount
           linha['created_at'] = linhas.created_at
           linha['updated_at'] = linhas.updated_at
-          linha['idcreditos'] = linhas.creditos.id
-          linha['name'] = linhas.creditos.name
-          linha['email'] = linhas.creditos.email
+          linha['idcustomer'] = linhas.customer.id
+          linha['name'] = linhas.customer.name
+          linha['email'] = linhas.customer.email
           issuesret.push(linha)
           this.hasNext =  true; 
         }
